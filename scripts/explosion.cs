@@ -1,14 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class explosion : MonoBehaviour {
+public class Explosion : MonoBehaviour {
 
 	public int particle_count;		// # of particles spawned
 	public float particle_velocity;	// initial particle speed
 	public int particle_life_time;	// in seconds
 	public Rigidbody2D particle;
-
-	private float offset_scale = 10;
 
 	// Use this for initialization
 	void Start () {
