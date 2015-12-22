@@ -5,7 +5,7 @@ public class Explosion : MonoBehaviour {
 
 	public int particle_count;		// # of particles spawned
 	public float particle_velocity;	// initial particle speed
-	public int particle_life_time;	// in seconds
+	public float particle_life_time;	// in seconds
 	public Rigidbody2D particle;
 
 	// Use this for initialization
