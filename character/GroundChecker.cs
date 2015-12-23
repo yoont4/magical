@@ -3,15 +3,17 @@ using System.Collections;
 
 public class GroundChecker : MonoBehaviour {
 
-	private MainCharacterController player;
+
+	private PlayerController player;
 
 	// Use this for initialization
 	void Start () {
-		player = this.GetComponentInParent<MainCharacterController> ();
+		player = this.GetComponentInParent<PlayerController> ();
 	}
 
 
 	void OnTriggerEnter2D(Collider2D col) {
+        player.animator.SetTrigger("startLand");
 		player.onGround = true;
 		player.onFirstJump = false;
 	}

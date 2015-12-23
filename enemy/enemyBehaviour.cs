@@ -16,26 +16,26 @@ public class enemyBehaviour : MonoBehaviour {
 	void Start () {
         
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    void FixedUpdate() {
+        int rand = Random.Range(0, 100);
+        //passiveHop(rand);
+        aggroHop(rand);
+
+
+
 
         dist = target.position.x - transform.position.x;
 
-	    if (dist < lookAtDist) {
+        if (dist < lookAtDist) {
             lookAt();
-        }if (dist < attackRange) {
-            //hop();
+        }
+        if (dist < attackRange) {
             chase();
         }
-	}
-
-    void FixedUpdate() {
-        int rand = (int) Mathf.Round(Random.value * 100f);
-        passiveHop(rand);
-        //aggroHop(rand);
     }
 
+    // look at target
     void lookAt() {
         
         if (target.position.x < transform.position.x && transform.localScale.x > 0) {
@@ -45,49 +45,43 @@ public class enemyBehaviour : MonoBehaviour {
             transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x), transform.localScale.y);
         }
     }
-
-    void chaseOld() {
-        if (dist > 0.1) {
-            if (target.position.x < transform.position.x) {
-
-                GetComponent<Rigidbody2D>().velocity = new Vector2(-moveSpeed, 0);
-
-            } else if (target.position.x > transform.position.x) {
-
-                GetComponent<Rigidbody2D>().velocity = new Vector2(moveSpeed, 0);
-
-            }
-        }
-    }
-
+   
+    // chases the target
     void chase() {
 
         if (dist > .75) {
-            Debug.Log("1");
             GetComponent<Rigidbody2D>().velocity = new Vector2(moveSpeed, 0);
         } else if (dist < -.75) {
-            Debug.Log("2");
             GetComponent<Rigidbody2D>().velocity = new Vector2(-moveSpeed, 0);
         }
      }
+
+    //when not chasing target random hops
     void passiveHop(int num) {
         if (num == 69 && onGround) {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+            //GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
             GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpHeight), ForceMode2D.Impulse);
         }
     }
 
+    //when chasing target more frequent hops, hops vary, two heights
     void aggroHop(int num) {
         if (num == 25 && onGround) {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+            //GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
             GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpHeight), ForceMode2D.Impulse);
-        }else if (num == 72 && onGround) {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+        }else if (num == 1 && onGround) {
+            //GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
             GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpHeight * 2), ForceMode2D.Impulse);
         }
     }
 
+    //detects if on ground
     void OnCollisionEnter2D(Collision2D col) {
         onGround = true;
+    }
+
+    // detects if in air
+     void OnCollisionExit2D(Collision2D col) {
+        onGround = false;
     }
 }
