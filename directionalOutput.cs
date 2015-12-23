@@ -7,6 +7,7 @@ public class directionalOutput : MonoBehaviour {
 	public Vector2 velocity;
 	private float timeHeld;
 	private float changeInTime;
+	public Vector2 avgVel;
 
 	public Rigidbody2D castingItem;
 	// Use this for initialization
