@@ -23,5 +23,6 @@ public class CameraControl : MonoBehaviour {
         x = Mathf.Round(unRoundedPos.x / scalar) * scalar;
         y = Mathf.Round(unRoundedPos.y / scalar) * scalar;
         transform.position = new Vector3(x, y, z);
+        //transform.position = unRoundedPos;
 	}
 }
