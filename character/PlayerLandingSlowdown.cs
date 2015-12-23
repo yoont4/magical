@@ -15,7 +15,7 @@ public class PlayerLandingSlowdown : StateMachineBehaviour {
 
 	// OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        float ramp = (originalSpeed / 50) * increment;
+        float ramp = (originalSpeed / 40) * increment;
         player.speed = originalSpeed / 2 + ramp;
         increment++;
 	}
