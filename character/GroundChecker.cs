@@ -3,11 +3,11 @@ using System.Collections;
 
 public class GroundChecker : MonoBehaviour {
 
-	private CharacterController player;
+	private MainCharacterController player;
 
 	// Use this for initialization
 	void Start () {
-		player = this.GetComponentInParent<CharacterController> ();
+		player = this.GetComponentInParent<MainCharacterController> ();
 	}
 
 
