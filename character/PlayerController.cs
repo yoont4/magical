@@ -37,9 +37,7 @@ public class PlayerController : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(body.velocity);
-        
-        
+
         // control falling state
         if (body.velocity.y < -0.1) {
             // only trigger the start falling animation if the previous frame the player was not falling
