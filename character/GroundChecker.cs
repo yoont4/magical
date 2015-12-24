@@ -3,26 +3,54 @@ using System.Collections;
 
 public class GroundChecker : MonoBehaviour {
 
-	private CharacterController player;
+    public float landingThreshold;
+
+	private PlayerController player;
 
 	// Use this for initialization
 	void Start () {
-		player = this.GetComponentInParent<CharacterController> ();
+		player = this.GetComponentInParent<PlayerController> ();
 	}
 
 
 	void OnTriggerEnter2D(Collider2D col) {
-		player.onGround = true;
-		player.onFirstJump = false;
+
+        // check if the colliding layer matches any of the ground layers
+        int colBit = 1<<col.gameObject.layer;
+        int overlap = player.groundLayer.value & colBit;
+        if (overlap > 0) {
+            player.onGround = true;
+		    player.onFirstJump = false;
+            
+            // only trigger landing animation if player is falling fast enough
+            // calculate landing threshold
+            if (player.fallSpeed <= -landingThreshold) {
+                player.animator.SetTrigger("startLand");
+            } 
+        }
+
+
 	}
 
 	// double check on ground (not needed)
-//	void OnTriggerStay2D(Collider2D col) {
-//		//player.onGround = true;
-//	}
+	void OnTriggerStay2D(Collider2D col) {
+		// check if the colliding layer matches any of the ground layers
+        int colBit = 1<<col.gameObject.layer;
+        int overlap = player.groundLayer.value & colBit;
+        if (overlap > 0) {
+            player.onGround = true;
+            player.onFirstJump = false;
+        }
+	}
 
 	void OnTriggerExit2D(Collider2D col) {
-		player.onGround = false;
-		player.onFirstJump = true;
+
+         // check if the colliding layer matches any of the ground layers
+        int colBit = 1<<col.gameObject.layer;
+        int overlap = player.groundLayer.value & colBit;
+        if (overlap > 0) {
+            player.onGround = false;
+            player.onFirstJump = true;
+        }
 	}
 }
