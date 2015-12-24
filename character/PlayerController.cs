@@ -57,6 +57,7 @@ public class PlayerController : MonoBehaviour {
                 animator.SetBool("falling", true);
             } else {
                 animator.SetBool("falling", false);
+
             }
 
             // control movement state
