@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour {
 
 	private Rigidbody2D body;
     [HideInInspector] public Animator animator;
+    [HideInInspector] public float fallSpeed;
     private bool facingRight = false;
 
 	// Use this for initialization
@@ -28,15 +29,10 @@ public class PlayerController : MonoBehaviour {
         animator = this.GetComponent<Animator>();
 	}
 
-    void FixedUpdate() {
-        if (body.velocity.y <= -maxFallSpeed) {
-            body.velocity.Set(body.velocity.x, -maxFallSpeed);
-        }
-
-    }
-
 	// Update is called once per frame
 	void Update () {
+        //Debug.Log(body.velocity);
+        fallSpeed = this.GetComponent<Rigidbody2D>().velocity.y;
 
         // control falling state
         if (body.velocity.y < -0.1) {
