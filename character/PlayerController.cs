@@ -22,6 +22,10 @@ public class PlayerController : CreatureBehavior {
 	private float attackStartTime;  // stores a ref to the last time an attack was triggered
 	private int attackNumber;		// stores which attack player is on: -1 means no attack
 
+	// vfx vars
+	public Rigidbody2D iceParticle;
+	public float iceParticleLife;
+
     private bool acceptInput = true;
 
 	public LayerMask groundLayer;
@@ -166,6 +170,20 @@ public class PlayerController : CreatureBehavior {
 			
 			// set startTime
 			attackStartTime = Time.time;
+			createIceParticles (20, iceParticleLife);
 		}
     }
+
+	void createIceParticles(int numberOfParticles, float particleLife) {
+		for (int i = 0; i < numberOfParticles; i++) {
+			float offset = 0.2f;
+			if (!facingRight) {
+				offset = offset * -1;
+			}
+			Vector2 pos = new Vector2 (transform.position.x+offset+offset*10*Random.value,transform.position.y+Random.value);
+			Rigidbody2D particle = (Rigidbody2D)Instantiate (iceParticle, pos, transform.rotation);
+			particle.AddForce (new Vector2 (offset*Random.value*30,2+Random.value), ForceMode2D.Impulse);
+			Destroy (particle.gameObject, particleLife);
+		}
+	}
  }
