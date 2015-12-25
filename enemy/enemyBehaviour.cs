@@ -1,33 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class enemyBehaviour : MonoBehaviour {
+public class EnemyBehaviour : CreatureBehavior {
 
     public Vector2 moveDirection;
     public Transform target;
     public float dist;
     public float lookAtDist = 10;
+	public float stoppingDist = 1;
     public float attackRange = 20;
     public float moveSpeed = 2;
     public float jumpHeight = 2;
     public bool onGround;
 
-	private bool facingRight = false;
-
 	// vars for hitstun
 	private Rigidbody2D body;
-	private float stunStart;
-	private float stunTime;
-	private bool stunned;
-
-	// vars for hitstun flashing
-	public Material flashMat;
-	private Material originalMat;
 
 	// Use this for initialization
 	void Start () {
 		body = this.GetComponent<Rigidbody2D> ();
-		originalMat = this.GetComponent<SpriteRenderer> ().material;
 	}
 
     void FixedUpdate() {
@@ -35,10 +26,7 @@ public class enemyBehaviour : MonoBehaviour {
 			int rand = Random.Range (0, 100);
 			//passiveHop(rand);
 			aggroHop (rand);
-			
-			
-			
-			
+
 			dist = target.position.x - transform.position.x;
 			
 			if (dist < lookAtDist) {
@@ -76,11 +64,14 @@ public class enemyBehaviour : MonoBehaviour {
     // chases the target
     void chase() {
 
-        if (dist > .75) {
-			body.velocity = new Vector2(moveSpeed, body.velocity.y);
-        } else if (dist < -.75) {
-			body.velocity = new Vector2(-moveSpeed, body.velocity.y);
-        }
+		if (dist > stoppingDist) {
+			body.velocity = new Vector2 (moveSpeed, body.velocity.y);
+		} else if (dist < -stoppingDist) {
+			body.velocity = new Vector2 (-moveSpeed, body.velocity.y);
+		} else if (onGround) { 
+			// decelerate if within stopping distance and on ground
+			body.velocity = new Vector2 (body.velocity.x / 1.2f, body.velocity.y);
+		}
      }
 
     //when not chasing target random hops
@@ -96,7 +87,7 @@ public class enemyBehaviour : MonoBehaviour {
         if (num == 25 && onGround) {
             //body.velocity = new Vector2(0, 0);
             body.AddForce(new Vector2(0, jumpHeight), ForceMode2D.Impulse);
-        }else if (num == 1 && onGround) {
+        } else if (num == 1 && onGround) {
             //body.velocity = new Vector2(0, 0);
             body.AddForce(new Vector2(0, jumpHeight * 2), ForceMode2D.Impulse);
         }
@@ -111,22 +102,4 @@ public class enemyBehaviour : MonoBehaviour {
      void OnCollisionExit2D(Collision2D col) {
         onGround = false;
     }
-
-	public void stun(float time) {
-		stunned = true;
-		stunStart = Time.time;
-		stunTime = time;
-		StartCoroutine(flash (time));
-	}
-
-	IEnumerator flash(float time) {
-		Renderer render = this.GetComponent<Renderer> ();
-		for (int i = 0; i < 2; i++) {
-			render.material = flashMat;
-			yield return new WaitForSeconds(0.1f);
-			render.material = originalMat;
-			yield return new WaitForSeconds(0.1f);
-		}
-
-	}
 }

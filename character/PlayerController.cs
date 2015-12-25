@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : CreatureBehavior {
 
 	public float speed;
     public float acceleration;
@@ -13,15 +13,14 @@ public class PlayerController : MonoBehaviour {
 	public int health;
 	public int exp;
 
-	public LayerMask attackCollisionLayers;
-    public float attackTime;    // how long 1 attack takes
-	public float finalAttackTime;	// how long the last attack in the chain takes
-    public float attackDelay;   // how long after an attack another one can be executed
-    public float attackMovement;    // how far forward the attack moves you
-    private float attackStartTime;  // stores a ref to the last time an attack was triggered
-
 	private AudioSource[] audios;
-	private int attackNumber;
+	public float attackTime;    // how long 1 attack takes
+	public float finalAttackTime;	// how long the last attack in the chain takes
+	public float attackDelay;   // how long after an attack another one can be executed
+	public float finalAttackDelay;	// how long after the last attack can another one be executed
+	public float attackMovement;    // how far forward the attack moves you
+	private float attackStartTime;  // stores a ref to the last time an attack was triggered
+	private int attackNumber;		// stores which attack player is on: -1 means no attack
 
     private bool acceptInput = true;
 
@@ -32,8 +31,6 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody2D body;
     [HideInInspector] public Animator animator;
     [HideInInspector] public float fallSpeed;
-	[HideInInspector] public bool facingRight = false;
-	[HideInInspector] public bool stunned;
 
 	// Use this for initialization
 	void Start () {
@@ -100,31 +97,33 @@ public class PlayerController : MonoBehaviour {
 				    jump (doubleJumpHeight);
 				    onFirstJump = false;
 			    }
-			} else if (Input.GetMouseButtonDown(1) && onGround) {	// ground_attack check
-				groundAttack();
+			} else if (Input.GetMouseButtonDown(1)) {	// ground_attack check
+				groundAttack(attackDelay);
 			}
         } else {
             // if no input is accepted, clear input states and decelerate player
             animator.SetBool("movementInput", false);
             body.velocity = new Vector2(body.velocity.x / stopSpeed, body.velocity.y);
 
-			if (attackNumber == 2) {
+			if (attackNumber == 2) {	// final attack check
+				// detect ground attack input
+				if (Input.GetMouseButtonDown(1)) {
+					groundAttack(finalAttackDelay);
+				}
 				if (Time.time - attackStartTime >= finalAttackTime) {
 					acceptInput = true;
 				}
-			} else {
+			} else {				// every other attack check
+				// detect ground attack input
+				if (Input.GetMouseButtonDown(1)) {
+					groundAttack(attackDelay);
+				}
 				if (Time.time - attackStartTime >= attackTime) {
 					acceptInput = true;
 				}
 	        }
 
-			// detect ground attack input
-			if (Input.GetMouseButtonDown(1) && onGround) {
-				// check that input is within attack delay limit
-				if (Time.time - attackStartTime >= attackDelay) {
-					groundAttack();
-				}
-			}
+
         }
 	}
 
@@ -146,23 +145,27 @@ public class PlayerController : MonoBehaviour {
         animator.SetTrigger("runPivot");
     }
 
-    void groundAttack() {
-		attackNumber = (attackNumber + 1) % 3;
-		audios [attackNumber].Play();
-
-        // disable non-attack input
-        acceptInput = false;
-        animator.SetBool("movementInput", false);
-        // initiate attack animation
-        animator.SetTrigger("attack");
-        // moveforward with attack 
-        if (facingRight) {
-            body.AddForce(new Vector2(attackMovement,0), ForceMode2D.Impulse);
-        } else {
-            body.AddForce(new Vector2(-attackMovement,0), ForceMode2D.Impulse);
-        }
-
-        // set startTime
-        attackStartTime = Time.time;
+	void groundAttack(float delayCheck) {
+		// check that input is within attack delay limit and player is on ground
+		if (onGround && Time.time - attackStartTime >= delayCheck) {
+			attackNumber = (attackNumber + 1) % 3;
+			audios [attackNumber].Play();
+			Debug.Log (attackNumber + " : " + audios.Length + "->" + audios [attackNumber].name);
+			
+			// disable non-attack input
+			acceptInput = false;
+			animator.SetBool("movementInput", false);
+			// initiate attack animation
+			animator.SetTrigger("attack");
+			// moveforward with attack 
+			if (facingRight) {
+				body.AddForce(new Vector2(attackMovement,0), ForceMode2D.Impulse);
+			} else {
+				body.AddForce(new Vector2(-attackMovement,0), ForceMode2D.Impulse);
+			}
+			
+			// set startTime
+			attackStartTime = Time.time;
+		}
     }
  }
