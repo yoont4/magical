@@ -3,12 +3,13 @@ using System.Collections;
 
 public class GroundChecker : MonoBehaviour {
 
-    public float landingThreshold;
+    private float landingThreshold;
 	private PlayerController player;
 
 	// Use this for initialization
 	void Start () {
 		player = this.GetComponentInParent<PlayerController> ();
+		landingThreshold = player.landingThreshold;
 	}
 
 	void OnTriggerEnter2D(Collider2D col) {
