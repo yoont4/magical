@@ -23,7 +23,7 @@ public class AttackKnockback : MonoBehaviour {
 			// trigger enemy stun
 			col.GetComponent<CreatureBehavior> ().stun (stunTime);
 			// trigger enemy hit sfx
-			col.GetComponent<AudioSource> ().Play ();
+			col.GetComponent<AudioSource> ().PlayDelayed ((Random.value/30f));	//randomize playtime to avoid stacking
 
 			// reset enemy velocity
 			col.attachedRigidbody.velocity = Vector2.zero;
