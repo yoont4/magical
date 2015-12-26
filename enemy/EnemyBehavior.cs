@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyBehaviour : CreatureBehavior {
+public class EnemyBehavior : CreatureBehavior {
 
     public Vector2 moveDirection;
     public Transform target;
@@ -97,6 +97,10 @@ public class EnemyBehaviour : CreatureBehavior {
     void OnCollisionEnter2D(Collision2D col) {
         onGround = true;
     }
+
+	void OnCollisionStay2D(Collision2D col) {
+		onGround = true;
+	}
 
     // detects if in air
      void OnCollisionExit2D(Collision2D col) {

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 /**
@@ -10,6 +11,8 @@ public class CreatureBehavior : MonoBehaviour {
 
 	public _TestManager manager;
 	public int health;
+	public int exp;
+	public Canvas expCanvas;
 
 	// directional vars
 	[HideInInspector] public bool facingRight = false;	// sprites are default facing left
@@ -54,9 +57,17 @@ public class CreatureBehavior : MonoBehaviour {
 	public bool takeDamage(int damage) {
 		health -= damage;
 		if (health <= 0) {
+
+			// generate exp death text
+			Canvas expCopy = (Canvas)Instantiate(expCanvas, transform.position, transform.rotation);
+			BoxCollider2D expCollider = expCopy.GetComponent<BoxCollider2D> ();
+			Text expText = expCopy.GetComponentInChildren<Text> ();
+			expText.text = "+" + this.exp.ToString();
+			expCollider.size = new Vector2 (expText.preferredWidth, expText.preferredHeight);
+
 			// enemy killed after 1/2 second
-			Destroy (this.gameObject,0.5f);
-			// disable hitbox
+			Destroy (this.gameObject,0.3f);
+			// add to the killed enemy count
 			manager.killEnemy ();
 			return true;
 		} 
