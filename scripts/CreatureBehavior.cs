@@ -56,6 +56,7 @@ public class CreatureBehavior : MonoBehaviour {
 		if (health <= 0) {
 			// enemy killed after 1/2 second
 			Destroy (this.gameObject,0.5f);
+			// disable hitbox
 			manager.killEnemy ();
 			return true;
 		} 

@@ -11,7 +11,7 @@ public class PlayerController : CreatureBehavior {
 	public float jumpSpring;
 	public float landingThreshold;
 
-	public AudioSource[] audios;
+	public AudioSource[] attackSounds;
 	public float attackTime;    // how long 1 attack takes
 	public float finalAttackTime;	// how long the last attack in the chain takes
 	public float attackDelay;   // how long after an attack another one can be executed
@@ -23,6 +23,7 @@ public class PlayerController : CreatureBehavior {
 	// vfx vars
 	public Rigidbody2D iceParticle;
 	public float iceParticleLife;
+	public int iceParticleCount;
 
     private bool acceptInput = true;
 
@@ -38,7 +39,7 @@ public class PlayerController : CreatureBehavior {
 	void Start () {
 		body = this.GetComponent<Rigidbody2D> ();
         animator = this.GetComponent<Animator>();
-		audios = this.GetComponentsInChildren<AudioSource> ();
+		attackSounds = this.GetComponentsInChildren<AudioSource> ();
 		attackNumber = -1;
 	}
 
@@ -99,7 +100,7 @@ public class PlayerController : CreatureBehavior {
 				    jump (doubleJumpHeight);
 				    onFirstJump = false;
 			    }
-			} else if (Input.GetMouseButtonDown(1)) {	// ground_attack check
+			} else if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.L)) {	// ground_attack check
 				groundAttack(attackDelay);
 			}
         } else {
@@ -109,7 +110,7 @@ public class PlayerController : CreatureBehavior {
 
 			if (attackNumber == 2) {	// final attack check
 				// detect ground attack input
-				if (Input.GetMouseButtonDown(1)) {
+				if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.L)) {
 					groundAttack(finalAttackDelay);
 				}
 				if (Time.time - attackStartTime >= finalAttackTime) {
@@ -117,7 +118,7 @@ public class PlayerController : CreatureBehavior {
 				}
 			} else {				// every other attack check
 				// detect ground attack input
-				if (Input.GetMouseButtonDown(1)) {
+				if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.L)) {
 					groundAttack(attackDelay);
 				}
 				if (Time.time - attackStartTime >= attackTime) {
@@ -134,6 +135,7 @@ public class PlayerController : CreatureBehavior {
 		//body.transform.Translate(new Vector2(0, jumpSpring));
 		body.velocity = new Vector2 (body.velocity.x, 1 );
 		body.AddForce (new Vector2 (0, jumpHeight), ForceMode2D.Impulse);
+		onGround = false;
 	}
 
     void flip(Rigidbody2D body) {
@@ -151,8 +153,8 @@ public class PlayerController : CreatureBehavior {
 		// check that input is within attack delay limit and player is on ground
 		if (onGround && Time.time - attackStartTime >= delayCheck) {
 			attackNumber = (attackNumber + 1) % 3;
-			audios [attackNumber].Play();
-			Debug.Log (attackNumber + " : " + audios.Length + "->" + audios [attackNumber].name);
+			attackSounds [attackNumber].Play();
+			Debug.Log (attackNumber + " : " + attackSounds.Length + "->" + attackSounds [attackNumber].name);
 			
 			// disable non-attack input
 			acceptInput = false;
@@ -168,7 +170,7 @@ public class PlayerController : CreatureBehavior {
 			
 			// set startTime
 			attackStartTime = Time.time;
-			createIceParticles (20, iceParticleLife);
+			createIceParticles (iceParticleCount, iceParticleLife);
 		}
     }
 
