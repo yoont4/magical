@@ -8,6 +8,9 @@ using System.Collections;
  **/
 public class CreatureBehavior : MonoBehaviour {
 
+	public _TestManager manager;
+	public int health;
+
 	// directional vars
 	[HideInInspector] public bool facingRight = false;	// sprites are default facing left
 
@@ -46,5 +49,16 @@ public class CreatureBehavior : MonoBehaviour {
 			render.material = originalMaterial;
 			yield return new WaitForSeconds(0.1f);
 		}
+	}
+
+	public bool takeDamage(int damage) {
+		health -= damage;
+		if (health <= 0) {
+			// enemy killed after 1/2 second
+			Destroy (this.gameObject,0.5f);
+			manager.killEnemy ();
+			return true;
+		} 
+		return false;
 	}
 }

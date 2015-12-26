@@ -10,10 +10,8 @@ public class PlayerController : CreatureBehavior {
 	public float doubleJumpHeight;
 	public float jumpSpring;
 	public float landingThreshold;
-	public int health;
-	public int exp;
 
-	private AudioSource[] audios;
+	public AudioSource[] audios;
 	public float attackTime;    // how long 1 attack takes
 	public float finalAttackTime;	// how long the last attack in the chain takes
 	public float attackDelay;   // how long after an attack another one can be executed

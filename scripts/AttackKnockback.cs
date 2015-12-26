@@ -9,6 +9,8 @@ public class AttackKnockback : MonoBehaviour {
 	public float xForce;
 	public float yForce;
 
+	public int attack;
+
 	// Use this for initialization
 	void Start () {
 		attacker = this.GetComponentInParent<CreatureBehavior> ();
@@ -34,5 +36,7 @@ public class AttackKnockback : MonoBehaviour {
 				col.attachedRigidbody.AddForce (new Vector2 (-xForce, yForce), ForceMode2D.Impulse);
 			}
 		}
+
+		col.GetComponent<CreatureBehavior> ().takeDamage (10);
 	}
 }

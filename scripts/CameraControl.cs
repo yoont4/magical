@@ -2,9 +2,14 @@
 using System.Collections;
 
 public class CameraControl : MonoBehaviour {
+
+	// pursuit vars
 	public GameObject target;
 	public float dampTime;
+	// alignment vars
     public bool pixelAlign = true;
+
+	// positioning vars
 	private Vector3 zero = Vector3.zero;
     private float x, y, z;
     private float scalar = 0.03125f;    // 1 pixel
