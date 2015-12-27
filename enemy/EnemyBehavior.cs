@@ -23,16 +23,16 @@ public class EnemyBehavior : CreatureBehavior {
 
     void FixedUpdate() {
 		if (!stunned) {
-			int rand = Random.Range (0, 100);
-			//passiveHop(rand);
-			aggroHop (rand);
-
-			dist = target.position.x - transform.position.x;
+            int rand = Random.Range(0, 100);
+            dist = target.position.x - transform.position.x;
 			
-			if (dist < lookAtDist) {
+            if (dist > lookAtDist) {
+                passiveHop (rand);
+            }else if (dist < lookAtDist) {
 				lookAt ();
 			}
 			if (dist < attackRange) {
+                aggroHop (rand);
 				chase ();
 			}
 		} else {
@@ -77,7 +77,6 @@ public class EnemyBehavior : CreatureBehavior {
     //when not chasing target random hops
     void passiveHop(int num) {
         if (num == 69 && onGround) {
-            //body.velocity = new Vector2(0, 0);
             body.AddForce(new Vector2(0, jumpHeight), ForceMode2D.Impulse);
         }
     }
@@ -85,10 +84,8 @@ public class EnemyBehavior : CreatureBehavior {
     //when chasing target more frequent hops, hops vary, two heights
     void aggroHop(int num) {
         if (num == 25 && onGround) {
-            //body.velocity = new Vector2(0, 0);
             body.AddForce(new Vector2(0, jumpHeight), ForceMode2D.Impulse);
         } else if (num == 1 && onGround) {
-            //body.velocity = new Vector2(0, 0);
             body.AddForce(new Vector2(0, jumpHeight * 2), ForceMode2D.Impulse);
         }
     }
