@@ -4,11 +4,13 @@ using System.Collections;
 public class _TestManager : MonoBehaviour {
 
 	public int enemiesKilled = 0;
+	public float shake;
+	private bool shaking = false;
+	private float shakeFactor;
+
 	public Camera cam;
 	public AudioClip[] killSounds;
 	public AudioSource soundSource;
-	private bool shaking = false;
-	private float shakeFactor;
 
 	void Update() {
 		if (shaking) {
@@ -56,6 +58,6 @@ public class _TestManager : MonoBehaviour {
 		}
 
 		shaking = true;
-		shakeFactor = 2f;
+		shakeFactor = shake;
 	}
 }
