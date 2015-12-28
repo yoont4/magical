@@ -1,0 +1,185 @@
+fileFormatVersion: 2
+guid: 2c69d025c1fa3f849aa2579a8780e16f
+timeCreated: 1451291571
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: mc_ground_attacks_3_pillar_128x64_0
+    21300002: mc_ground_attacks_3_pillar_128x64_1
+    21300004: mc_ground_attacks_3_pillar_128x64_2
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 32
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: mc_ground_attacks_3_pillar_128x64_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 128
+        height: 64
+      alignment: 9
+      pivot: {x: 0.625, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -17, y: -16}
+        - {x: -17, y: 48}
+        - {x: -51, y: 48}
+        - {x: -51, y: -16}
+    - name: mc_ground_attacks_3_pillar_128x64_1
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 128
+        height: 64
+      alignment: 9
+      pivot: {x: 0.625, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -56, y: -16}
+        - {x: -51, y: -16}
+        - {x: -51, y: -9}
+        - {x: -53, y: -7}
+        - {x: -56, y: -8}
+      - - {x: -18, y: -16}
+        - {x: -13, y: -16}
+        - {x: -13, y: 7}
+        - {x: -15, y: 9}
+        - {x: -18, y: 8}
+      - - {x: -56, y: 13}
+        - {x: -54, y: 11}
+        - {x: -51, y: 12}
+        - {x: -51, y: 23}
+        - {x: -53, y: 25}
+        - {x: -56, y: 24}
+      - - {x: -18, y: 15}
+        - {x: -16, y: 13}
+        - {x: -13, y: 14}
+        - {x: -13, y: 18}
+        - {x: -15, y: 20}
+        - {x: -18, y: 19}
+      - - {x: -18, y: 26}
+        - {x: -16, y: 24}
+        - {x: -13, y: 25}
+        - {x: -13, y: 36}
+        - {x: -15, y: 38}
+        - {x: -18, y: 37}
+      - - {x: -56, y: 34}
+        - {x: -54, y: 32}
+        - {x: -51, y: 33}
+        - {x: -51, y: 40}
+        - {x: -53, y: 42}
+        - {x: -56, y: 41}
+      - - {x: -16, y: 40}
+        - {x: -13, y: 41}
+        - {x: -13, y: 48}
+        - {x: -18, y: 48}
+        - {x: -18, y: 42}
+      - - {x: -54, y: 44}
+        - {x: -51, y: 45}
+        - {x: -51, y: 48}
+        - {x: -56, y: 48}
+        - {x: -56, y: 46}
+    - name: mc_ground_attacks_3_pillar_128x64_2
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 128
+        height: 64
+      alignment: 9
+      pivot: {x: 0.625, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -57, y: -14}
+        - {x: -55, y: -15}
+        - {x: -52, y: -13}
+        - {x: -52, y: -6}
+        - {x: -54, y: -4}
+        - {x: -57, y: -5}
+      - - {x: -17, y: -12}
+        - {x: -15, y: -14}
+        - {x: -12, y: -13}
+        - {x: -12, y: -9}
+        - {x: -14, y: -7}
+        - {x: -17, y: -8}
+      - - {x: -15, y: -3}
+        - {x: -12, y: -2}
+        - {x: -12, y: 1}
+        - {x: -15, y: 2}
+        - {x: -17, y: 0}
+      - - {x: -57, y: 12}
+        - {x: -55, y: 10}
+        - {x: -52, y: 11}
+        - {x: -52, y: 14}
+        - {x: -54, y: 16}
+        - {x: -57, y: 15}
+      - - {x: -15, y: 19}
+        - {x: -12, y: 20}
+        - {x: -12, y: 23}
+        - {x: -15, y: 24}
+        - {x: -17, y: 22}
+      - - {x: -55, y: 20}
+        - {x: -52, y: 21}
+        - {x: -52, y: 24}
+        - {x: -55, y: 25}
+        - {x: -57, y: 23}
+      - - {x: -17, y: 30}
+        - {x: -15, y: 28}
+        - {x: -12, y: 29}
+        - {x: -12, y: 33}
+        - {x: -14, y: 35}
+        - {x: -17, y: 34}
+      - - {x: -55, y: 44}
+        - {x: -52, y: 45}
+        - {x: -52, y: 48}
+        - {x: -56, y: 48}
+        - {x: -57, y: 47}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
