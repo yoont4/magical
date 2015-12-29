@@ -24,6 +24,7 @@ public class PlayerController : CreatureBehavior {
 	public Rigidbody2D iceParticle;
 	public float iceParticleLife;
 	public int iceParticleCount;
+	public Animator icePillarExtension;
 
     private bool acceptInput = true;
 
@@ -162,10 +163,14 @@ public class PlayerController : CreatureBehavior {
 			// initiate attack animation
 			animator.SetTrigger("attack");
 			// moveforward with attack 
+			int movementMod = 1;
+			if (attackNumber == 2) {
+				movementMod = 2;
+			}
 			if (facingRight) {
-				body.AddForce(new Vector2(attackMovement,0), ForceMode2D.Impulse);
+				body.AddForce(new Vector2(attackMovement/movementMod,0), ForceMode2D.Impulse);
 			} else {
-				body.AddForce(new Vector2(-attackMovement,0), ForceMode2D.Impulse);
+				body.AddForce(new Vector2(-attackMovement/movementMod,0), ForceMode2D.Impulse);
 			}
 			
 			// set startTime
@@ -184,6 +189,26 @@ public class PlayerController : CreatureBehavior {
 			Rigidbody2D particle = (Rigidbody2D)Instantiate (iceParticle, pos, transform.rotation);
 			particle.AddForce (new Vector2 (offset*Random.value*30,2+Random.value), ForceMode2D.Impulse);
 			Destroy (particle.gameObject, particleLife);
+		}
+	}
+
+	/**
+	 * Used to extend the ice pillar sprite off the screen
+	 * ^triggered by the 3rd ground attack animation via animation event
+	 **/
+	void extendIcePillar() {
+		Vector2 extensionPos;
+		// properly rotate sprite depending on player direction
+		Quaternion extensionRotation = transform.rotation;
+		if (facingRight) {
+			extensionRotation.y = 180;
+		} 
+
+		// create pillars going up the screen
+		for (int i = 0; i < 3; i++) {
+			extensionPos = new Vector2 (transform.position.x, transform.position.y + (2 * (i+1)));
+			Animator pillar = (Animator)Instantiate (icePillarExtension, extensionPos, extensionRotation);
+			Destroy (pillar.gameObject, 0.4f);	// destroyed after the last frame is played
 		}
 	}
  }
