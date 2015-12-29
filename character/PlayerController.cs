@@ -154,30 +154,38 @@ public class PlayerController : CreatureBehavior {
 		// check that input is within attack delay limit and player is on ground
 		if (onGround && Time.time - attackStartTime >= delayCheck) {
 			attackNumber = (attackNumber + 1) % 3;
-			attackSounds [attackNumber].Play();
 			Debug.Log (attackNumber + " : " + attackSounds.Length + "->" + attackSounds [attackNumber].name);
 			
 			// disable non-attack input
 			acceptInput = false;
 			animator.SetBool("movementInput", false);
-			// initiate attack animation
+			// initiate attack animation and events
 			animator.SetTrigger("attack");
-			// moveforward with attack 
-			int movementMod = 1;
-			if (attackNumber == 2) {
-				movementMod = 2;
-			}
-			if (facingRight) {
-				body.AddForce(new Vector2(attackMovement/movementMod,0), ForceMode2D.Impulse);
-			} else {
-				body.AddForce(new Vector2(-attackMovement/movementMod,0), ForceMode2D.Impulse);
-			}
 			
 			// set startTime
 			attackStartTime = Time.time;
 			createIceParticles (iceParticleCount, iceParticleLife);
 		}
     }
+
+	void groundAttackEvent(int attackNumber) {
+		// play sfx of attack
+		attackSounds [attackNumber].Play ();
+		// shift character in the attack direction
+		if (attackNumber == 2) {
+			groundAttackMovement (attackMovement/2);
+		} else {
+			groundAttackMovement (attackMovement);
+		}
+	}
+
+	void groundAttackMovement(float attackMovement) {
+		if (facingRight) {
+			body.AddForce(new Vector2(attackMovement,0), ForceMode2D.Impulse);
+		} else {
+			body.AddForce(new Vector2(-attackMovement,0), ForceMode2D.Impulse);
+		}
+	}
 
 	void createIceParticles(int numberOfParticles, float particleLife) {
 		for (int i = 0; i < numberOfParticles; i++) {
@@ -211,4 +219,6 @@ public class PlayerController : CreatureBehavior {
 			Destroy (pillar.gameObject, 0.4f);	// destroyed after the last frame is played
 		}
 	}
+
+
  }
