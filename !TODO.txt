@@ -1,0 +1,31 @@
+redo ground attack animations
+	upwards slash -> downward slash -> stab or ice pillar (game object)
+
+sfx
+	atk1
+	atk2
+	atk3
+	running
+	stopping
+	jumping
+	landing
+	player hit
+	
+	magic spawn
+	magic cast
+	fire spawn
+	explosion
+	lighting spawn
+	lighting selector
+	lightning strike
+	
+	pickup
+	menu item hover
+	menu item click
+
+x	menu music
+x	game music 
+
+x	enemy hit
+	slime atk
+	slime jump	(?)

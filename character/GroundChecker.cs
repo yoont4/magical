@@ -3,18 +3,16 @@ using System.Collections;
 
 public class GroundChecker : MonoBehaviour {
 
-    public float landingThreshold;
-
+    private float landingThreshold;
 	private PlayerController player;
 
 	// Use this for initialization
 	void Start () {
 		player = this.GetComponentInParent<PlayerController> ();
+		landingThreshold = player.landingThreshold;
 	}
 
-
 	void OnTriggerEnter2D(Collider2D col) {
-
         // check if the colliding layer matches any of the ground layers
         int colBit = 1<<col.gameObject.layer;
         int overlap = player.groundLayer.value & colBit;
@@ -28,11 +26,9 @@ public class GroundChecker : MonoBehaviour {
                 player.animator.SetTrigger("startLand");
             } 
         }
-
-
 	}
 
-	// double check on ground (not needed)
+	// double check on ground (needed in case physics-engine misses enter)
 	void OnTriggerStay2D(Collider2D col) {
 		// check if the colliding layer matches any of the ground layers
         int colBit = 1<<col.gameObject.layer;
@@ -44,7 +40,6 @@ public class GroundChecker : MonoBehaviour {
 	}
 
 	void OnTriggerExit2D(Collider2D col) {
-
          // check if the colliding layer matches any of the ground layers
         int colBit = 1<<col.gameObject.layer;
         int overlap = player.groundLayer.value & colBit;
