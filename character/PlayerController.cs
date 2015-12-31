@@ -213,7 +213,7 @@ public class PlayerController : CreatureBehavior {
 		} 
 
 		// create pillars going up the screen
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 6; i++) {
 			extensionPos = new Vector2 (transform.position.x, transform.position.y + (2 * (i+1)));
 			Animator pillar = (Animator)Instantiate (icePillarExtension, extensionPos, extensionRotation);
 			Destroy (pillar.gameObject, 0.4f);	// destroyed after the last frame is played
