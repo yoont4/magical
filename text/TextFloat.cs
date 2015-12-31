@@ -11,12 +11,11 @@ public class TextFloat : MonoBehaviour {
 	[HideInInspector] public float spawnTime;
 	[HideInInspector] public int collidedTextCount = 0;
 
-	private Text text;
+	[HideInInspector] public Text[] text;
 
 	void Start() {
 		spawnTime = Time.time;
-		text = this.GetComponentInChildren<Text> ();
-
+		text = this.GetComponentsInChildren<Text> ();
 	}
 
 	// Update is called once per frame
@@ -24,7 +23,8 @@ public class TextFloat : MonoBehaviour {
 		floatSpeed -= floatSpeed*0.1f;
 		transform.position = new Vector2 (transform.position.x, transform.position.y + floatSpeed*Time.deltaTime);
 		if (Time.time - spawnTime >= fadeTime) {
-			text.color = new Color (text.color.r, text.color.g, text.color.b, text.color.a - fadeSpeed * Time.deltaTime);
+			text[0].color = new Color (text[0].color.r, text[0].color.g, text[0].color.b, text[0].color.a - fadeSpeed * Time.deltaTime);
+			text[1].color = new Color (text[1].color.r, text[1].color.g, text[1].color.b, text[1].color.a - fadeSpeed * Time.deltaTime);
 		}
 		if (Time.time - spawnTime >= floatLife) {
 			Destroy (this.gameObject);
@@ -36,6 +36,5 @@ public class TextFloat : MonoBehaviour {
 		this.collidedTextCount++;
 		col.enabled = false;
 		enteredText.transform.position = new Vector2 (transform.position.x, transform.position.y + 0.3f * collidedTextCount);
-		//transform.position = new Vector2 (transform.position.x, transform.position.y + 0.3f);
 	}
 }

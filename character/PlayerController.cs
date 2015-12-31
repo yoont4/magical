@@ -141,7 +141,7 @@ public class PlayerController : CreatureBehavior {
 
     void flip(Rigidbody2D body) {
         facingRight = !facingRight;
-        Vector2 scale = transform.localScale;
+        Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
 

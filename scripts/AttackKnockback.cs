@@ -41,9 +41,9 @@ public class AttackKnockback : MonoBehaviour {
 			col.attachedRigidbody.velocity = Vector2.zero;
 			// apply force in the right direction
 			if (attacker.facingRight) {
-				col.attachedRigidbody.AddForce (new Vector2 (xForce, yForce), ForceMode2D.Impulse);
+				target.takeKnockback (new Vector2 (xForce, yForce));
 			} else {
-				col.attachedRigidbody.AddForce (new Vector2 (-xForce, yForce), ForceMode2D.Impulse);
+				target.takeKnockback (new Vector2 (-xForce, yForce));
 			}
 		}
 
