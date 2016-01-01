@@ -10,7 +10,9 @@ public class TextBoxController : MonoBehaviour
 
     private Canvas canvas;
 
-    private bool opened = false;
+    private bool opening = false;
+
+    private bool addingChars = false;
 
     private bool notClosed = false;
 
@@ -21,6 +23,9 @@ public class TextBoxController : MonoBehaviour
     private int newlineCount;
 
     private bool addNewChar = true;
+
+    // For when box is being opened.
+    private float boxSize = 0.0025f;
 
     void Awake()
     {
@@ -54,17 +59,17 @@ public class TextBoxController : MonoBehaviour
     {
         if (dialogIndex == dialog.Length)
         {
-            opened = false;
+            addingChars = false;
             dialogIndex = 0;
         }
 
-        if (opened && addNewChar)
+        if (addingChars && addNewChar)
         {
             text.text += dialog[dialogIndex];
             dialogIndex++;
         }
 
-        if (opened)
+        if (addingChars)
         {
             addNewChar = !addNewChar;
         }
@@ -72,6 +77,22 @@ public class TextBoxController : MonoBehaviour
         if (notClosed)
         {
             canvas.transform.position = transform.position + new Vector3(0f, 1f + (newlineCount * 0.2f), 0f);
+        }
+
+        if (opening)
+        {
+            canvas.transform.localScale = new Vector3(boxSize, boxSize, 1f);
+            boxSize += 0.0025f;
+            if (boxSize >= 0.03125)
+            {
+
+                // Make sure final size is exact
+                canvas.transform.localScale = new Vector3(0.03125f, 0.03125f, 1f);
+
+                opening = false;
+                addingChars = true;
+                boxSize = 0.0025f;
+            }
         }
     }
 
@@ -81,7 +102,7 @@ public class TextBoxController : MonoBehaviour
         GameObject canvasGameObject = (GameObject) Instantiate(Resources.Load("DialogCanvas"), boxPosition, Quaternion.identity);
         canvas = canvasGameObject.GetComponent<Canvas>();
         text = canvas.GetComponentInChildren<Text>();
-        opened = true;
+        opening = true;
         notClosed = true;
     }
 
