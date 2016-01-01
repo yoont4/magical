@@ -24,6 +24,9 @@ public class TextBoxController : MonoBehaviour
         // index of the last spot where a newline was added
         int lastNewlineIndex = 0;
 
+        // Number of newlines inserted into dialog.
+        int newlineCount = 0;
+
         for (int i = 25; i < displayedDialog.Length; i += 25)
         {
             
@@ -36,18 +39,20 @@ public class TextBoxController : MonoBehaviour
 
             if (whiteSpaceLocator > lastNewlineIndex)
             {
-                print("whitespace: " + whiteSpaceLocator);
-                print("lastNewine: " + lastNewlineIndex);
+                newlineCount++;
                 displayedDialog = displayedDialog.Insert(whiteSpaceLocator, System.Environment.NewLine);
                 lastNewlineIndex = whiteSpaceLocator + System.Environment.NewLine.Length;
                 i++;
             }
         }
 
-        GameObject canvasGameObject = (GameObject) Instantiate(Resources.Load("DialogCanvas"), transform.position, Quaternion.identity);
+        Vector3 boxPosition = transform.position + new Vector3(0f, 1f + (newlineCount * 0.2f), 0f);
+        GameObject canvasGameObject = (GameObject) Instantiate(Resources.Load("DialogCanvas"), boxPosition, Quaternion.identity);
         canvas = canvasGameObject.GetComponent<Canvas>();
         Text text = canvas.GetComponentInChildren<Text>();
         text.text = displayedDialog;
+        text.font = font;
+        text.fontSize = fontSize;
     }
 
     public void close()
