@@ -28,7 +28,6 @@ public class CreatureBehavior : MonoBehaviour {
 	public Material flashMaterial;
 
 	void Awake() {
-		Debug.Log ("creature spawned");
 		originalMaterial = this.GetComponent<SpriteRenderer> ().material;
 	}
 	
