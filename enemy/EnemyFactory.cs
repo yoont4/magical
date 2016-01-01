@@ -14,7 +14,6 @@ public class EnemyFactory : MonoBehaviour {
 	public float spawnWidth;
 
 	void Awake() {
-		creature = creatureContainer.GetComponentInChildren<EnemyBehavior> ();
 		// override spawn rate if too small
 		if (spawnRate <= 0.15f) {
 			spawnRate = 0.25f;

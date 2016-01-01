@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class explode : MonoBehaviour {
+public class Explode : Magic {
     public GameObject explosion;
     public GameObject fire;
     public GameObject fireParticle;
     public float particleCount;
     public float velocity;
-    public bool trigger;
+    public bool triggered;
 
 	// Use this for initialization
 	void Start () {
@@ -16,16 +16,20 @@ public class explode : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-	    if (trigger) {
-            spawnParticles();
-            Instantiate(explosion, transform.position, Quaternion.identity);
-            Instantiate(fire, transform.position, Quaternion.identity);
-            Destroy(gameObject);
+	    if (active) {
+			if (triggered) {
+				spawnParticles();
+				Instantiate(explosion, transform.position, Quaternion.identity);
+				Instantiate(fire, transform.position, Quaternion.identity);
+				Destroy(gameObject);
+			}
         }
 	}
 
     void OnCollisionEnter2D(Collision2D col) {
-        trigger = true;
+		if (active) {
+			triggered = true;
+		}
     }
 
     void spawnParticles() {
