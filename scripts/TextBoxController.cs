@@ -5,8 +5,6 @@ using System.Collections;
 public class TextBoxController : MonoBehaviour
 {
 
-    public static int MAX_WIDTH = 160;
-
     // The text to be displayed in the box.
     public string dialog;
 
@@ -16,23 +14,29 @@ public class TextBoxController : MonoBehaviour
 
     private Canvas canvas;
 
-    public void open()
-    {
-        // Will add in newlines to break up long text. This is the broken up version.
-        string displayedDialog = dialog;
+    private bool opened = false;
 
+    private int dialogIndex = 0;
+
+    private Text text;
+
+    private int newlineCount;
+
+    private bool addNewChar = true;
+
+    void Awake()
+    {
         // index of the last spot where a newline was added
         int lastNewlineIndex = 0;
 
-        // Number of newlines inserted into dialog.
-        int newlineCount = 0;
+        newlineCount = 0;
 
-        for (int i = 25; i < displayedDialog.Length; i += 25)
+        for (int i = 25; i < dialog.Length; i += 25)
         {
-            
+
             // Go through while loop until you find first whitespace.
             int whiteSpaceLocator = i;
-            while (whiteSpaceLocator != lastNewlineIndex && !char.IsWhiteSpace(displayedDialog[whiteSpaceLocator - 1]))
+            while (whiteSpaceLocator != lastNewlineIndex && !char.IsWhiteSpace(dialog[whiteSpaceLocator - 1]))
             {
                 whiteSpaceLocator--;
             }
@@ -40,19 +44,40 @@ public class TextBoxController : MonoBehaviour
             if (whiteSpaceLocator > lastNewlineIndex)
             {
                 newlineCount++;
-                displayedDialog = displayedDialog.Insert(whiteSpaceLocator, System.Environment.NewLine);
+                dialog = dialog.Insert(whiteSpaceLocator, System.Environment.NewLine);
                 lastNewlineIndex = whiteSpaceLocator + System.Environment.NewLine.Length;
                 i++;
             }
         }
 
+    }
+
+    void Update()
+    {
+        if (dialogIndex == dialog.Length)
+        {
+            opened = false;
+            dialogIndex = 0;
+        }
+
+        if (opened && addNewChar)
+        {
+            text.text += dialog[dialogIndex];
+            dialogIndex++;
+        }
+
+        addNewChar = !addNewChar;
+    }
+
+    public void open()
+    {
         Vector3 boxPosition = transform.position + new Vector3(0f, 1f + (newlineCount * 0.2f), 0f);
         GameObject canvasGameObject = (GameObject) Instantiate(Resources.Load("DialogCanvas"), boxPosition, Quaternion.identity);
         canvas = canvasGameObject.GetComponent<Canvas>();
-        Text text = canvas.GetComponentInChildren<Text>();
-        text.text = displayedDialog;
+        text = canvas.GetComponentInChildren<Text>();
         text.font = font;
         text.fontSize = fontSize;
+        opened = true;
     }
 
     public void close()
