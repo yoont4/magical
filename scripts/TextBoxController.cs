@@ -8,13 +8,11 @@ public class TextBoxController : MonoBehaviour
     // The text to be displayed in the box.
     public string dialog;
 
-    public Font font;
-
-    public int fontSize;
-
     private Canvas canvas;
 
     private bool opened = false;
+
+    private bool notClosed = false;
 
     private int dialogIndex = 0;
 
@@ -66,7 +64,15 @@ public class TextBoxController : MonoBehaviour
             dialogIndex++;
         }
 
-        addNewChar = !addNewChar;
+        if (opened)
+        {
+            addNewChar = !addNewChar;
+        }
+
+        if (notClosed)
+        {
+            canvas.transform.position = transform.position + new Vector3(0f, 1f + (newlineCount * 0.2f), 0f);
+        }
     }
 
     public void open()
@@ -75,9 +81,8 @@ public class TextBoxController : MonoBehaviour
         GameObject canvasGameObject = (GameObject) Instantiate(Resources.Load("DialogCanvas"), boxPosition, Quaternion.identity);
         canvas = canvasGameObject.GetComponent<Canvas>();
         text = canvas.GetComponentInChildren<Text>();
-        text.font = font;
-        text.fontSize = fontSize;
         opened = true;
+        notClosed = true;
     }
 
     public void close()
@@ -88,5 +93,7 @@ public class TextBoxController : MonoBehaviour
             Destroy(canvas.GetComponent<GraphicRaycaster>());
             Destroy(canvas);
         }
+
+        notClosed = false;
     }
 }
