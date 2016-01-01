@@ -25,7 +25,7 @@ public class TextBoxController : MonoBehaviour
         if (displayText)
         {
             Vector3 convertedObjectPosition = gameCamera.WorldToScreenPoint(objectPosition + new Vector3(0, 0, 10));
-            GUI.Box(new Rect(convertedObjectPosition.x - 45, convertedObjectPosition.y - 125, 100, 100), script);
+            GUI.Box(new Rect(convertedObjectPosition.x - 45, (Screen.height - convertedObjectPosition.y) - 125, 100, 100), script);
         }
     }
 
