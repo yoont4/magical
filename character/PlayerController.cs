@@ -141,7 +141,7 @@ public class PlayerController : CreatureBehavior {
 
     void flip(Rigidbody2D body) {
         facingRight = !facingRight;
-        Vector2 scale = transform.localScale;
+        Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
 
@@ -154,30 +154,38 @@ public class PlayerController : CreatureBehavior {
 		// check that input is within attack delay limit and player is on ground
 		if (onGround && Time.time - attackStartTime >= delayCheck) {
 			attackNumber = (attackNumber + 1) % 3;
-			attackSounds [attackNumber].Play();
 			Debug.Log (attackNumber + " : " + attackSounds.Length + "->" + attackSounds [attackNumber].name);
 			
 			// disable non-attack input
 			acceptInput = false;
 			animator.SetBool("movementInput", false);
-			// initiate attack animation
+			// initiate attack animation and events
 			animator.SetTrigger("attack");
-			// moveforward with attack 
-			int movementMod = 1;
-			if (attackNumber == 2) {
-				movementMod = 2;
-			}
-			if (facingRight) {
-				body.AddForce(new Vector2(attackMovement/movementMod,0), ForceMode2D.Impulse);
-			} else {
-				body.AddForce(new Vector2(-attackMovement/movementMod,0), ForceMode2D.Impulse);
-			}
 			
 			// set startTime
 			attackStartTime = Time.time;
 			createIceParticles (iceParticleCount, iceParticleLife);
 		}
     }
+
+	void groundAttackEvent(int attackNumber) {
+		// play sfx of attack
+		attackSounds [attackNumber].Play ();
+		// shift character in the attack direction
+		if (attackNumber == 2) {
+			groundAttackMovement (attackMovement/2);
+		} else {
+			groundAttackMovement (attackMovement);
+		}
+	}
+
+	void groundAttackMovement(float attackMovement) {
+		if (facingRight) {
+			body.AddForce(new Vector2(attackMovement,0), ForceMode2D.Impulse);
+		} else {
+			body.AddForce(new Vector2(-attackMovement,0), ForceMode2D.Impulse);
+		}
+	}
 
 	void createIceParticles(int numberOfParticles, float particleLife) {
 		for (int i = 0; i < numberOfParticles; i++) {
@@ -205,10 +213,12 @@ public class PlayerController : CreatureBehavior {
 		} 
 
 		// create pillars going up the screen
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 6; i++) {
 			extensionPos = new Vector2 (transform.position.x, transform.position.y + (2 * (i+1)));
 			Animator pillar = (Animator)Instantiate (icePillarExtension, extensionPos, extensionRotation);
 			Destroy (pillar.gameObject, 0.4f);	// destroyed after the last frame is played
 		}
 	}
+
+
  }

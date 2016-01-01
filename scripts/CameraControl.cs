@@ -14,6 +14,12 @@ public class CameraControl : MonoBehaviour {
     private float x, y, z;
     private float scalar = 0.03125f;    // 1 pixel
 
+	// boundary vars
+	public float xMin;
+	public float xMax;
+	public float yMin;
+	public float yMax;
+
 	void Start() {
 		z = transform.position.z;
 	}
@@ -23,6 +29,19 @@ public class CameraControl : MonoBehaviour {
         
         // get the player position
 		Vector3 targetPos = new Vector3 (target.transform.position.x, target.transform.position.y, z);
+
+		// apply bounds
+		if (targetPos.x < xMin) {
+			targetPos.x = xMin;
+		} else if(targetPos.x > xMax) {
+			targetPos.x = xMax;
+		}
+		if(targetPos.y < yMin) {
+			targetPos.y = yMin;
+		} else if(targetPos.y > yMax) {
+			targetPos.y = yMax;
+		}
+
         // calculate the new position
         Vector3 unRoundedPos = Vector3.SmoothDamp(transform.position, targetPos, ref zero, dampTime);
 
