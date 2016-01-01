@@ -45,6 +45,6 @@ public class ImpactDamage : MonoBehaviour {
 
 	int calculateDamage(Vector2 velocity) {
 		float speed = velocity.magnitude;
-		return (int)Mathf.Sqrt (speed) * damageScale;
+		return (int)(Mathf.Sqrt (speed) * damageScale);
 	}
 }

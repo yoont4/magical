@@ -3,7 +3,10 @@ using System.Collections;
 
 public class EnemyFactory : MonoBehaviour {
 
-	public EnemyBehavior creature;
+	// creature to spawn vars
+	public Transform creatureContainer;
+	private EnemyBehavior creature;
+	// controller vars
 	public Transform target;
 	public _TestManager manager;
 	public float spawnRate;
@@ -11,6 +14,7 @@ public class EnemyFactory : MonoBehaviour {
 	public float spawnWidth;
 
 	void Awake() {
+		creature = creatureContainer.GetComponentInChildren<EnemyBehavior> ();
 		// override spawn rate if too small
 		if (spawnRate <= 0.15f) {
 			spawnRate = 0.25f;
@@ -21,7 +25,8 @@ public class EnemyFactory : MonoBehaviour {
 
 	void spawn() {
 		Vector2 spawnLocation = new Vector2 (transform.position.x+Random.value*spawnWidth, transform.position.y);
-		EnemyBehavior newCreature = (EnemyBehavior)Instantiate (creature, spawnLocation, transform.rotation);
+		Transform newContainer = (Transform)Instantiate (creatureContainer, spawnLocation, transform.rotation);
+		EnemyBehavior newCreature = newContainer.GetComponentInChildren<EnemyBehavior> ();
 		newCreature.target = target;
 		newCreature.manager = manager;
 
