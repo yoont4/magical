@@ -17,10 +17,7 @@ public class explode : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 	    if (trigger) {
-            spawnParticles();
-            Instantiate(explosion, transform.position, Quaternion.identity);
-            Instantiate(fire, transform.position, Quaternion.identity);
-            Destroy(gameObject);
+            blowUp();
         }
 	}
 
@@ -42,5 +39,12 @@ public class explode : MonoBehaviour {
             // set destroy time
             Destroy(p.gameObject, 2);
         }
+    }
+
+    void blowUp() {
+        spawnParticles();
+        Instantiate(explosion, transform.position, Quaternion.identity);
+        Instantiate(fire, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 }
