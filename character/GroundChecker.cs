@@ -13,10 +13,8 @@ public class GroundChecker : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D col) {
-        // check if the colliding layer matches any of the ground layers
-        int colBit = 1<<col.gameObject.layer;
-        int overlap = player.groundLayer.value & colBit;
-        if (overlap > 0) {
+		// check that the colliding layer is a ground layer
+		if (Utilities.checkLayerMask(player.groundLayer, col)) {
             player.onGround = true;
 		    player.onFirstJump = false;
             

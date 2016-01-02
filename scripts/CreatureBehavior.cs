@@ -107,7 +107,7 @@ public class CreatureBehavior : MonoBehaviour {
 	}
 
 	/**
-	 * Applies knockback and stun to the creature 
+	 * Applies knockback to the creature 
 	 */
 	public void takeKnockback(Vector2 knockback) {
 		// reset the enemy velocity before applying force

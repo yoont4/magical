@@ -1,50 +1,64 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Explode : Magic {
-    public GameObject explosion;
-    public GameObject fire;
-    public GameObject fireParticle;
-    public float particleCount;
-    public float velocity;
-    public bool triggered;
+public class Explode : MonoBehaviour {
+
+	// attack vars
+	public LayerMask attackCollisionLayers;
+	public int damage = 10;
+	public float knockbackStrength = 2;
+	public float stunTime = 0.5f;	// in seconds
+
+	// particle effects vars
+	public Rigidbody2D fireParticle;
+	public int particleCount = 10;
+	public float particleVelocity = 10f;
+	public float particleLife = 2f;
+
+	// screenshake var
+	public float screenshakeStrength = 1f;
 
 	// Use this for initialization
 	void Start () {
-	
+		spawnParticles ();
+		StartCoroutine (disableExplosion(0.05f));	// stops damage detection, forces, etc.
+		Utilities.screenShake(screenshakeStrength);			// causes screen shake
+		Destroy(this.gameObject, 1f);
 	}
 	
-	// Update is called once per frame
-	void FixedUpdate () {
-	    if (active) {
-			if (triggered) {
-				spawnParticles();
-				Instantiate(explosion, transform.position, Quaternion.identity);
-				Instantiate(fire, transform.position, Quaternion.identity);
-				Destroy(gameObject);
-			}
-        }
-	}
-
-    void OnCollisionEnter2D(Collision2D col) {
-		if (active) {
-			triggered = true;
+	void OnTriggerEnter2D(Collider2D col) {
+		// check that the object is in an attack collision layer
+		if (Utilities.checkLayerMask(attackCollisionLayers, col)) {
+			CreatureBehavior target = col.GetComponent<CreatureBehavior> ();
+			Debug.Log ("HIT!");
+			Debug.Log (col.gameObject.layer);
+			target.takeDamage (damage);
+			target.stun (stunTime);
 		}
-    }
+	}
 
-    void spawnParticles() {
-        Vector2 vel;
-        for (int i = 0; i <= particleCount; i++) {
+	void spawnParticles() {
+		Vector2 vel;
+		for (int i = 0; i <= particleCount; i++) {
 
-            GameObject p = (GameObject) Instantiate(fireParticle, transform.position, Quaternion.identity);
+			Rigidbody2D p = (Rigidbody2D) Instantiate(fireParticle, transform.position, Quaternion.identity);
 
-            vel = Random.insideUnitCircle * velocity;
-            vel.y += 2; // add upward bias
-                        // set particle direction/speed
-            p.GetComponent<Rigidbody2D>().velocity = vel;
+			vel = Random.insideUnitCircle * particleVelocity;
+			vel.y += 2; // add upward bias
+			// set particle direction/speed
+			p.GetComponent<Rigidbody2D>().velocity = vel;
 
-            // set destroy time
-            Destroy(p.gameObject, 2);
-        }
-    }
+			// set destroy time
+			Destroy(p.gameObject, particleLife);
+		}
+	}
+
+	IEnumerator disableExplosion(float time) {
+		PointEffector2D effector = this.GetComponent<PointEffector2D> ();
+		CircleCollider2D circleCol = this.GetComponent<CircleCollider2D> ();
+		yield return new WaitForSeconds (time);
+
+		effector.enabled = false;
+		circleCol.enabled = false;
+	}
 }

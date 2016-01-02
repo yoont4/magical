@@ -19,13 +19,7 @@ public class AttackKnockback : MonoBehaviour {
 	
 	void OnTriggerEnter2D(Collider2D col) {
 		CreatureBehavior target = col.GetComponent<CreatureBehavior> ();
-
-
-		// check if the colliding layer matches any of the enemy layers
-		int colBit = 1<<col.gameObject.layer;
-		int overlap = attackCollisionLayers.value & colBit;
-		// if the overlap (&) is positive, then the target layer matches some layer in the attack layers
-		if (overlap > 0) {
+		if (Utilities.checkLayerMask(attackCollisionLayers, col)) {
 			// check if enemy is in "dying" transition: do nothing if it is
 			if (target.health <= 0) {
 				return;
