@@ -6,6 +6,7 @@ public enum GameState { playing, won, lost, pause };
 
 public class GameManager : MonoBehaviour {
 
+    float minimumHeight = 0;  // If the caharacter falls below this height, set game over
     public KeyCode restartKey;
     public KeyCode giveupKey;
     public KeyCode pauseKey;
@@ -38,9 +39,11 @@ public class GameManager : MonoBehaviour {
             if (Input.GetKey(restartKey))
             {
                 Time.timeScale = 1.0f;
+                SoundManager2.unpause();
                 SceneManager.LoadScene(gameScene, LoadSceneMode.Single);
             }
         }
+        if (transform.position.y < minimumHeight) { setGameOver(); }
 	}
 
     /*
@@ -52,17 +55,19 @@ public class GameManager : MonoBehaviour {
         {
             gameState = GameState.pause;
             Time.timeScale = 0.0f;
+            SoundManager2.pause();
         } else if (gameState == GameState.pause) {
             gameState = GameState.playing;
             Time.timeScale = 1.0f;
+            SoundManager2.unpause();
         }
     }
 
     public void setGameOver() {
         if (gameState != GameState.lost)
         {
-            Debug.Log("I am here");
             Time.timeScale = 0.0f;
+            SoundManager2.terminate();
             Debug.Log("you lose");
             gameState = GameState.lost;
             SceneManager.LoadScene(gameoverScene, LoadSceneMode.Additive);
