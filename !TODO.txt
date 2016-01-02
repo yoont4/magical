@@ -27,5 +27,20 @@ x	menu music
 x	game music 
 
 x	enemy hit
-	slime atk
-	slime jump	(?)
+	mushroom idle
+	mushroom walk
+	mushroom jump/fall
+
+[LAYER ORDERS]
+	08.player
+	09.enemy
+	10.particle
+	11.ground
+	12.playerAttack
+	13.vfx
+	14.dynamicText
+	15.playerMagic
+	16.background
+
+
+	31.groundCheck
