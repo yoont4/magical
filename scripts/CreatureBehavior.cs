@@ -9,6 +9,10 @@ using System.Collections;
  **/
 public class CreatureBehavior : MonoBehaviour {
 
+	// store a reference to it's container
+	// **all creatures are stored within a container
+	private Transform container;
+
 	public _TestManager manager;
 	public int health;
 	public int def;
@@ -30,10 +34,11 @@ public class CreatureBehavior : MonoBehaviour {
 	public Material flashMaterial;
 
 	void Awake() {
-		Debug.Log ("creature spawned");
 		originalMaterial = this.GetComponent<SpriteRenderer> ().material;
+		container = this.transform.parent;
+
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 	
@@ -93,7 +98,7 @@ public class CreatureBehavior : MonoBehaviour {
 			expCollider.size = new Vector2 (expText[0].preferredWidth, expText[0].preferredHeight);
 
 			// enemy killed after 1/2 second
-			Destroy (this.gameObject,0.3f);
+			Destroy (container.gameObject,0.3f);
 			// add to the killed enemy count
 			manager.killEnemy ();
 			return true;
@@ -102,7 +107,7 @@ public class CreatureBehavior : MonoBehaviour {
 	}
 
 	/**
-	 * Applies knockback and stun to the creature 
+	 * Applies knockback to the creature 
 	 */
 	public void takeKnockback(Vector2 knockback) {
 		// reset the enemy velocity before applying force
