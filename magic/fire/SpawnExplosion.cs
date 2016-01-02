@@ -23,4 +23,10 @@ public class SpawnExplosion : Magic {
 			triggered = true;
 		}
     }
+
+	void OnCollisionStay2D(Collision2D col){
+		if (active) {
+			triggered = true;
+		}
+	}
 }
