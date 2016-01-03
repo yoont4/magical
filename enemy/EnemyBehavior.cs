@@ -18,6 +18,9 @@ public class EnemyBehavior : CreatureBehavior {
 
 	// Use this for initialization
 	void Start () {
+		// grab manager reference in parent
+		this.manager = this.GetComponentInParent<EnemyManager>();
+
 		body = this.GetComponent<Rigidbody2D> ();
 	}
 

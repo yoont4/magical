@@ -9,14 +9,15 @@ using System.Collections;
  **/
 public class CreatureBehavior : MonoBehaviour {
 
+	// reference to the creature's manager
+	// always in the parent component (container)
+	[HideInInspector] public CreatureManager manager;
+
 	// store a reference to it's container
 	// **all creatures are stored within a container
 	private Transform container;
 
-	public _TestManager manager;
-	public int health;
-	public int def;
-	public int exp;
+	// text effect references
 	public Canvas expCanvas;
 	public Canvas damageCanvas;
 
@@ -77,7 +78,7 @@ public class CreatureBehavior : MonoBehaviour {
 	 */
 	public bool takeDamage(int damage) {
 		// apply damage
-		health -= damage;
+		manager.health -= damage;
 
 		// spawn damage text
 		Canvas damageCopy = (Canvas)Instantiate(damageCanvas, transform.position, transform.rotation);
@@ -87,20 +88,18 @@ public class CreatureBehavior : MonoBehaviour {
 
 
 		// if the enemy dies, spawn the exp text
-		if (health <= 0) {
+		if (manager.health <= 0) {
 
 			// generate exp death text
 			Canvas expCopy = (Canvas)Instantiate(expCanvas, transform.position, transform.rotation);
 			BoxCollider2D expCollider = expCopy.GetComponent<BoxCollider2D> ();
 			Text[] expText = expCopy.GetComponentsInChildren<Text> ();
-			expText[0].text = "+" + this.exp.ToString();
-			expText[1].text = "+" + this.exp.ToString();
+			expText[0].text = "+" + manager.totalExp.ToString();
+			expText[1].text = "+" + manager.totalExp.ToString();
 			expCollider.size = new Vector2 (expText[0].preferredWidth, expText[0].preferredHeight);
 
 			// enemy killed after 1/2 second
 			Destroy (container.gameObject,0.3f);
-			// add to the killed enemy count
-			manager.killEnemy ();
 			return true;
 		} 
 		return false;

@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class HealthBarUpdate : MonoBehaviour {
+public class EnemyHealthBarUpdate : MonoBehaviour {
 
 	private CreatureBehavior target;
 	private Slider healthSlider;
@@ -13,7 +13,7 @@ public class HealthBarUpdate : MonoBehaviour {
 	void Start () {
 		// instantiate starting health and creature reference
 		target = this.transform.parent.GetComponentInChildren<CreatureBehavior>();
-		startHealth = target.health;
+		startHealth = target.manager.totalHealth;
 		// instantiate slider and starting value
 		healthSlider = this.GetComponentInChildren<Slider> ();
 		healthSlider.value = 1f;	// start full
@@ -23,7 +23,7 @@ public class HealthBarUpdate : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// should display current health out of total health
-		healthSlider.value = ((float)target.health) / ((float)startHealth);
+		healthSlider.value = ((float)target.manager.health) / ((float)startHealth);
 		Vector3 position = new Vector3(target.transform.position.x, target.transform.position.y + 1f, target.transform.position.z);
 		healthCanvas.transform.position = position;
 	}

@@ -38,10 +38,13 @@ public class PlayerController : CreatureBehavior {
 
 	// Use this for initialization
 	void Start () {
-		body = this.GetComponent<Rigidbody2D> ();
-        animator = this.GetComponent<Animator>();
-		attackSounds = this.GetComponentsInChildren<AudioSource> ();
-		attackNumber = -1;
+		// grabs manager reference on instantiation
+		this.manager = this.GetComponentInParent<PlayerManager> ();
+
+		this.body = this.GetComponent<Rigidbody2D> ();
+        this.animator = this.GetComponent<Animator>();
+		this.attackSounds = this.GetComponentsInChildren<AudioSource> ();
+		this.attackNumber = -1;
 	}
 
 	// Update is called once per frame
@@ -168,6 +171,9 @@ public class PlayerController : CreatureBehavior {
 		}
     }
 
+	/**
+	 * Used by the animator to trigger movement and sound
+	 */
 	void groundAttackEvent(int attackNumber) {
 		// play sfx of attack
 		attackSounds [attackNumber].Play ();

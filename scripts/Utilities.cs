@@ -34,7 +34,7 @@ public class Utilities : MonoBehaviour {
 
 	void Update() {
 		if (shaking) {
-			mainCam.transform.localPosition = Random.insideUnitCircle * shakeFactor;
+			mainCam.transform.localPosition = Random.insideUnitCircle*shakeFactor;
 			shakeFactor -= 0.2f;
 			if (shakeFactor <= 0.2f) {
 				shaking = false;

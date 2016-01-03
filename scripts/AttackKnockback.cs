@@ -21,7 +21,7 @@ public class AttackKnockback : MonoBehaviour {
 		CreatureBehavior target = col.GetComponent<CreatureBehavior> ();
 		if (Utilities.checkLayerMask(attackCollisionLayers, col)) {
 			// check if enemy is in "dying" transition: do nothing if it is
-			if (target.health <= 0) {
+			if (target.manager.health <= 0) {
 				return;
 			}
 
@@ -29,7 +29,12 @@ public class AttackKnockback : MonoBehaviour {
 			target.stun (stunTime);
 			// trigger enemy hit sfx
 			col.GetComponent<AudioSource> ().PlayDelayed ((Random.value/30f));	//randomize playtime to avoid stacking
-			target.takeDamage (attack);
+
+			// apply damage
+			if (target.takeDamage (attack)) {
+				// if the enemy dies after taking damage, take experience
+				attacker.manager.gainExperience(target.manager.totalExp);
+			}
 
 			// reset enemy velocity
 			col.attachedRigidbody.velocity = Vector2.zero;
