@@ -41,14 +41,15 @@ public class GameManager : MonoBehaviour {
                 PlayerController.isAcceptingInput = true;
                 Time.timeScale = 1.0f;
                 SoundManager2.unpause();
-                SceneManager.LoadScene(gameScene, LoadSceneMode.Single);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // Note: for some reason, this doesn't work -> SceneManager.LoadScene(gameScene, LoadSceneMode.Single);
             }
         }
         if (transform.position.y < minimumHeight) { setGameOver(); }
 	}
 
     /*
-     * toggle game state between pause and playing, if the game is in other states, do nothing 
+     * toggle game state between pause and playing, to be specific, 
+     * it pauses / unpauses gameplay and sound
      */
     void setPause()
     {
@@ -66,6 +67,9 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    /*
+     *  
+     */
     public void setGameOver() {
         if (gameState != GameState.lost)
         {
@@ -75,6 +79,7 @@ public class GameManager : MonoBehaviour {
             Debug.Log("you lose");
             gameState = GameState.lost;
             SceneManager.LoadScene(gameoverScene, LoadSceneMode.Additive);
+            //Application.LoadLevelAdditive(gameoverScene);
         }  
     } 
 }
