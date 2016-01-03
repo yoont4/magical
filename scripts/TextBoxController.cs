@@ -14,7 +14,7 @@ public class TextBoxController : MonoBehaviour
 
     private bool addingChars = false;
 
-    private bool notClosed = false;
+    [HideInInspector] public bool notClosed = false;
 
     private int dialogIndex = 0;
 
@@ -98,10 +98,19 @@ public class TextBoxController : MonoBehaviour
 
     public void open()
     {
+        //float y = ((transform.position.y + 1f + (newlineCount * 0.2f)) * 32f) / 32;
         Vector3 boxPosition = transform.position + new Vector3(0f, 1f + (newlineCount * 0.2f), 0f);
+        //boxPosition = new Vector3(transform.position.x, y, 0f);
         GameObject canvasGameObject = (GameObject) Instantiate(Resources.Load("DialogCanvas"), boxPosition, Quaternion.identity);
         canvas = canvasGameObject.GetComponent<Canvas>();
+        
+        // for text crispness
+        CanvasScaler scaler = canvas.GetComponent<CanvasScaler>();
+        scaler.dynamicPixelsPerUnit = 32;
+        scaler.referencePixelsPerUnit = 32;
+        
         text = canvas.GetComponentInChildren<Text>();
+        text.fontSize = 8;
         opening = true;
         notClosed = true;
     }
