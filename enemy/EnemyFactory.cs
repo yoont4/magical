@@ -8,7 +8,6 @@ public class EnemyFactory : MonoBehaviour {
 	private EnemyBehavior creature;
 	// controller vars
 	public Transform target;
-	public _TestManager manager;
 	public float spawnRate;
 	public int spawnCount;
 	public float spawnWidth;
@@ -27,7 +26,6 @@ public class EnemyFactory : MonoBehaviour {
 		Transform newContainer = (Transform)Instantiate (creatureContainer, spawnLocation, transform.rotation);
 		EnemyBehavior newCreature = newContainer.GetComponentInChildren<EnemyBehavior> ();
 		newCreature.target = target;
-		newCreature.manager = manager;
 
 		spawnCount--;
 		if (spawnCount <= 0) {
