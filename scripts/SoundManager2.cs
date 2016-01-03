@@ -38,7 +38,8 @@ public class SoundManager2 : MonoBehaviour {
 
     public static void terminate()
     {
-        audio.UnPause();
-        audio.PlayOneShot(gameover);
+        audio.clip = gameover;
+        audio.loop = false;
+        audio.Play();
     }
 }

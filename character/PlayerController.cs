@@ -26,7 +26,9 @@ public class PlayerController : CreatureBehavior {
 	public int iceParticleCount;
 	public Animator icePillarExtension;
 
-    private bool acceptInput = true;
+    public static bool isAcceptingInput = true;
+    // blockMovementInput is frequently updated internally using special logic, please use blockInput
+    private bool acceptMovementInput = true;
 
 	public LayerMask groundLayer;
 	public bool onGround;
@@ -55,7 +57,11 @@ public class PlayerController : CreatureBehavior {
      * 
      **/
 	void Update () {
-        if (acceptInput) {
+        if (!isAcceptingInput)
+        { 
+            return; 
+        }
+        if (acceptMovementInput) {
 			attackNumber = -1;
 
             //Debug.Log(body.velocity);
@@ -118,7 +124,7 @@ public class PlayerController : CreatureBehavior {
 					groundAttack(finalAttackDelay);
 				}
 				if (Time.time - attackStartTime >= finalAttackTime) {
-					acceptInput = true;
+					acceptMovementInput = true;
 				}
 			} else {				// every other attack check
 				// detect ground attack input
@@ -126,7 +132,7 @@ public class PlayerController : CreatureBehavior {
 					groundAttack(attackDelay);
 				}
 				if (Time.time - attackStartTime >= attackTime) {
-					acceptInput = true;
+					acceptMovementInput = true;
 				}
 	        }
 
@@ -160,7 +166,7 @@ public class PlayerController : CreatureBehavior {
 			Debug.Log (attackNumber + " : " + attackSounds.Length + "->" + attackSounds [attackNumber].name);
 			
 			// disable non-attack input
-			acceptInput = false;
+			acceptMovementInput = false;
 			animator.SetBool("movementInput", false);
 			// initiate attack animation and events
 			animator.SetTrigger("attack");

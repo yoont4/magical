@@ -90,7 +90,7 @@ public class CreatureBehavior : MonoBehaviour {
 		// if the enemy dies, spawn the exp text
 		if (manager.health <= 0) {
 
-			// generate exp death text
+            // generate exp death text
 			Canvas expCopy = (Canvas)Instantiate(expCanvas, transform.position, transform.rotation);
 			BoxCollider2D expCollider = expCopy.GetComponent<BoxCollider2D> ();
 			Text[] expText = expCopy.GetComponentsInChildren<Text> ();

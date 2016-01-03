@@ -54,7 +54,7 @@ public class PlayerManager : CreatureManager {
 
 		// spawn level up text
 		Vector2 levelUpPosition = new Vector2(this.controller.transform.position.x, this.controller.transform.position.y + 1f);
-		Canvas newLevelUp = (Canvas)Instantiate(levelUpCanvas, levelUpPosition, this.controller.transform.rotation);
+		Instantiate(levelUpCanvas, levelUpPosition, this.controller.transform.rotation);
 	}
 
 	private int calculateExpCap(int level) {
