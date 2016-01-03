@@ -44,6 +44,10 @@ public class Utilities : MonoBehaviour {
 		}
 	}
 
+    public static bool checkLayerMask(LayerMask mask, Collision2D col) {
+        return checkLayerMask(mask, col.collider);
+    }
+
 	/**
 	 * Returns true if the col matches any of the layers in the mask
 	 */

@@ -76,6 +76,9 @@ public class CreatureBehavior : MonoBehaviour {
 	 * Applies damage to the creature and kills it if it's health runs out
 	 */
 	public bool takeDamage(int damage) {
+        if (health <= 0) {
+            return true;
+        }
 		// apply damage
 		health -= damage;
 
@@ -89,7 +92,7 @@ public class CreatureBehavior : MonoBehaviour {
 		// if the enemy dies, spawn the exp text
 		if (health <= 0) {
 
-			// generate exp death text
+            // generate exp death text
 			Canvas expCopy = (Canvas)Instantiate(expCanvas, transform.position, transform.rotation);
 			BoxCollider2D expCollider = expCopy.GetComponent<BoxCollider2D> ();
 			Text[] expText = expCopy.GetComponentsInChildren<Text> ();
@@ -97,8 +100,8 @@ public class CreatureBehavior : MonoBehaviour {
 			expText[1].text = "+" + this.exp.ToString();
 			expCollider.size = new Vector2 (expText[0].preferredWidth, expText[0].preferredHeight);
 
-			// enemy killed after 1/2 second
-			Destroy (container.gameObject,0.3f);
+            // enemy killed after 1/2 second
+            Destroy (container.gameObject,0.3f);
 			// add to the killed enemy count
 			manager.killEnemy ();
 			return true;
