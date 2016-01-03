@@ -106,7 +106,7 @@ public class TextBoxController : MonoBehaviour
         
         // for text crispness
         CanvasScaler scaler = canvas.GetComponent<CanvasScaler>();
-        scaler.dynamicPixelsPerUnit = 32;
+        scaler.dynamicPixelsPerUnit = 8;
         scaler.referencePixelsPerUnit = 32;
         
         text = canvas.GetComponentInChildren<Text>();
