@@ -42,6 +42,9 @@ public class _DialogMockController : MonoBehaviour {
 
     public void trigger() {
         triggered = !triggered;
+        if (!triggered) {
+            text.text = "";
+        }
         bust.color = new Color(1,1,1,0);
         bust.enabled = true;
         InvokeRepeating("addCharacter", 0, 0.05f);

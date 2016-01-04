@@ -13,7 +13,6 @@ public class _DialogMockTrigger : MonoBehaviour {
             dialogController.trigger();
         } else {
             textController.open();
-
             StartCoroutine(trigger());
         }
     }
