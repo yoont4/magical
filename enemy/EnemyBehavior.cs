@@ -20,7 +20,6 @@ public class EnemyBehavior : CreatureBehavior {
 	void Start () {
 		// grab manager reference in parent
 		this.manager = this.GetComponentInParent<EnemyManager>();
-
 		body = this.GetComponent<Rigidbody2D> ();
 	}
 
