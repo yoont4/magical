@@ -12,12 +12,11 @@ public class PlayerController : CreatureBehavior {
 	public float landingThreshold;
 
 	public AudioSource[] attackSounds;
-	public float attackTime;    // how long 1 attack takes
-	public float finalAttackTime;	// how long the last attack in the chain takes
-	public float attackDelay;   // how long after an attack another one can be executed
-	public float finalAttackDelay;	// how long after the last attack can another one be executed
+	public float[] attackTime;    // how long 1 attack takes (movement check)
+    public float[] attackDelays;    // how long after each attack the next attack is accepted (attack check)
 	public float attackMovement;    // how far forward the attack moves you
 	private float attackStartTime;  // stores a ref to the last time an attack was triggered
+    private float attackDelay;      // the currently chosen attack delay
 	private int attackNumber;		// stores which attack player is on: -1 means no attack
 
 	// vfx vars
@@ -61,14 +60,15 @@ public class PlayerController : CreatureBehavior {
         { 
             return; 
         }
+
         if (acceptMovementInput) {
+            // attackNumber -1 represents none attack state
 			attackNumber = -1;
 
-            //Debug.Log(body.velocity);
-            fallSpeed = this.GetComponent<Rigidbody2D>().velocity.y;
+            fallSpeed = body.velocity.y;
         
             // control falling state
-            if (body.velocity.y < -0.1) {
+            if (fallSpeed < -0.1f) {
                 // only trigger the start falling animation if the previous frame the player was not falling
                 if (!animator.GetBool("falling")) {
                     animator.SetTrigger("startFalling");
@@ -97,7 +97,7 @@ public class PlayerController : CreatureBehavior {
                 body.velocity = new Vector2 (body.velocity.x / stopSpeed, body.velocity.y);
             }
 
-		    // control jump state and grond attack state
+		    // control jump state and ground attack state
 			// only allow one or the other per frame, so ground_attack trigger cannot be set
 			// on jump time 
 		    if (Input.GetKeyDown (KeyCode.Space)) {
@@ -110,32 +110,30 @@ public class PlayerController : CreatureBehavior {
 				    jump (doubleJumpHeight);
 				    onFirstJump = false;
 			    }
-			} else if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.L)) {	// ground_attack check
-				groundAttack(attackDelay);
+			} else if (Input.GetMouseButtonDown(1) && Input.GetKey(KeyCode.W)) {  //ground_attack_up check
+                groundAttackUp();
+            } else if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.L)) {	// ground_attack check
+				groundAttack();
 			}
         } else {
             // if no input is accepted, clear input states and decelerate player
             animator.SetBool("movementInput", false);
             body.velocity = new Vector2(body.velocity.x / stopSpeed, body.velocity.y);
 
-			if (attackNumber == 2) {	// final attack check
+            // check for ground_attack_up
+            if ((Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.L)) && Input.GetKey(KeyCode.W)) {  //ground_attack_up check
+                groundAttackUp();
+            } else {				// every other attack check
 				// detect ground attack input
 				if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.L)) {
-					groundAttack(finalAttackDelay);
-				}
-				if (Time.time - attackStartTime >= finalAttackTime) {
-					acceptMovementInput = true;
-				}
-			} else {				// every other attack check
-				// detect ground attack input
-				if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.L)) {
-					groundAttack(attackDelay);
-				}
-				if (Time.time - attackStartTime >= attackTime) {
-					acceptMovementInput = true;
+					groundAttack();
 				}
 	        }
 
+            // check if attack animation is over before enabling movement
+			if (Time.time - attackStartTime >= attackTime[attackNumber]) {
+				acceptMovementInput = true;
+			}
 
         }
 	}
@@ -159,10 +157,15 @@ public class PlayerController : CreatureBehavior {
         animator.SetTrigger("runPivot");
     }
 
-	void groundAttack(float delayCheck) {
+	void groundAttack() {
 		// check that input is within attack delay limit and player is on ground
-		if (onGround && Time.time - attackStartTime >= delayCheck) {
-			attackNumber = (attackNumber + 1) % 3;
+		if (onGround && Time.time - attackStartTime >= attackDelay) {
+            if (attackNumber >= 3) {
+                attackNumber = 0;   // all other attacks reset ground attacks to the first 1
+            } else {
+			    attackNumber = (attackNumber + 1) % 3;  // loop ground attacks
+            }
+
 			Debug.Log (attackNumber + " : " + attackSounds.Length + "->" + attackSounds [attackNumber].name);
 			
 			// disable non-attack input
@@ -173,8 +176,29 @@ public class PlayerController : CreatureBehavior {
 			
 			// set startTime
 			attackStartTime = Time.time;
+            // set post-attack delay
+            attackDelay = attackDelays[attackNumber];
 			createIceParticles (iceParticleCount, iceParticleLife);
 		}
+    }
+
+    void groundAttackUp() {
+        // check that input is within attack delay limit and player is on ground
+        if (onGround && Time.time - attackStartTime >= attackDelay) {
+            attackNumber = 3;  
+            Debug.Log("ground_attack_up");
+
+            // disable non-attack input
+            acceptMovementInput = false;
+            animator.SetBool("movementInput", false);
+            // initiate UP attack animation/events
+            animator.SetTrigger("attackUp");
+
+            // set startTime
+            attackStartTime = Time.time;
+            // set post-attack delay
+            attackDelay = attackDelays[attackNumber];
+        }
     }
 
 	/**
@@ -183,12 +207,11 @@ public class PlayerController : CreatureBehavior {
 	void groundAttackEvent(int attackNumber) {
 		// play sfx of attack
 		attackSounds [attackNumber].Play ();
+
 		// shift character in the attack direction
-		if (attackNumber == 2) {
-			groundAttackMovement (attackMovement/2);
-		} else {
+		if (attackNumber <= 2) {
 			groundAttackMovement (attackMovement);
-		}
+		} 
 	}
 
 	void groundAttackMovement(float attackMovement) {
@@ -214,7 +237,7 @@ public class PlayerController : CreatureBehavior {
 
 	/**
 	 * Used to extend the ice pillar sprite off the screen
-	 * ^triggered by the 3rd ground attack animation via animation event
+	 * ^triggered by the ground attack up animation via animation event
 	 **/
 	void extendIcePillar() {
 		Vector2 extensionPos;
