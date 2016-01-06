@@ -39,10 +39,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7d5a0788c6ee0f4f99ff7fa1c64da96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  creatureContainer: {fileID: 456964, guid: 7e93e35adf2f6414e9672bef50158787, type: 2}
+  creatureContainer: {fileID: 462816, guid: 9f0d8e37657ea174c88afa708333ce88, type: 2}
   target: {fileID: 0}
-  spawnRate: 1
-  spawnCount: 100
+  spawnRate: 3
+  spawnCount: 15
   spawnWidth: 10
 --- !u!1001 &100100000
 Prefab:
@@ -57,16 +57,16 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: spawnCount
-      value: 9
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: spawnRate
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: creatureContainer
       value: 
-      objectReference: {fileID: 401240, guid: fa10051cb4842ac4aac294f87340bcdf, type: 2}
+      objectReference: {fileID: 462816, guid: 9f0d8e37657ea174c88afa708333ce88, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 164994}

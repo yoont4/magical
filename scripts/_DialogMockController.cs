@@ -10,7 +10,6 @@ public class _DialogMockController : MonoBehaviour {
     private string dialog;
     private Text text;
     public float printTime = 0.01f;
-    private float lastPrint = 0;
     private int i = 0;
 
     public bool triggered = false;
@@ -31,7 +30,7 @@ public class _DialogMockController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (i != dialog.Length) {
+        if (i < dialog.Length) {
             if (triggered) {
                 fadeDist *= 0.95f;
                 bust.color = new Color(1,1,1,bust.color.a + 0.05f);
@@ -42,19 +41,24 @@ public class _DialogMockController : MonoBehaviour {
 
     public void trigger() {
         triggered = !triggered;
-        if (!triggered) {
-            text.text = "";
-        }
-        bust.color = new Color(1,1,1,0);
-        bust.enabled = true;
-        InvokeRepeating("addCharacter", 0, 0.05f);
+
+		// reset regardless
+		bust.color = new Color (1, 1, 1, 0);
+		fadeDist = 10f;
+		text.text = "";
+		i = 0;
+
+		if (triggered)  {
+			bust.enabled = true;
+			InvokeRepeating("addCharacter", 0, 0.05f);
+		}
     }
 
     public void addCharacter() {
-        if (i == dialog.Length) {
+        if (i == dialog.Length - 1) {
+			// check if on the last character before cancelling invoke
             CancelInvoke();
         }
-        lastPrint = Time.time;
         text.text += dialog[i];
         i++;
     }
