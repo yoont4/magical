@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: 2c69d025c1fa3f849aa2579a8780e16f
-timeCreated: 1451291571
+guid: 9fea59b5d9835ea4c85b6bee86aff872
+timeCreated: 1452210022
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: mc_ground_attacks_3_pillar_128x64_0
-    21300002: mc_ground_attacks_3_pillar_128x64_1
-    21300004: mc_ground_attacks_3_pillar_128x64_2
+    21300000: mc_ground_attacks_up_pillar_128x64_0
+    21300002: mc_ground_attacks_up_pillar_128x64_1
+    21300004: mc_ground_attacks_up_pillar_128x64_2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -53,7 +53,7 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: mc_ground_attacks_3_pillar_128x64_0
+    - name: mc_ground_attacks_up_pillar_128x64_0
       rect:
         serializedVersion: 2
         x: 0
@@ -68,7 +68,7 @@ TextureImporter:
         - {x: -17, y: 48}
         - {x: -51, y: 48}
         - {x: -51, y: -16}
-    - name: mc_ground_attacks_3_pillar_128x64_1
+    - name: mc_ground_attacks_up_pillar_128x64_1
       rect:
         serializedVersion: 2
         x: 128
@@ -123,7 +123,7 @@ TextureImporter:
         - {x: -51, y: 48}
         - {x: -56, y: 48}
         - {x: -56, y: 46}
-    - name: mc_ground_attacks_3_pillar_128x64_2
+    - name: mc_ground_attacks_up_pillar_128x64_2
       rect:
         serializedVersion: 2
         x: 256
