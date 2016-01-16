@@ -337,7 +337,7 @@ MonoBehaviour:
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 1
+  m_DynamicPixelsPerUnit: 2
 --- !u!114 &11440386
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -663,6 +663,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_ReferencePixelsPerUnit
       value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_DynamicPixelsPerUnit
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
