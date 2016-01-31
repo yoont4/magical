@@ -63,9 +63,27 @@ public class Utilities : MonoBehaviour {
 		}
 	}
 
+    /**
+     * Causes the screen to shake by some magnitude specified by
+     * shakeAmount.
+     */
 	public static void screenShake(float shakeAmount) {
 		shaking = true;
 		shakeFactor = shakeAmount;
 	}
+
+    /**
+     * Causes the game to freeze by some time specified by freezeTime.
+     */
+    public void gameFreeze(float freezeTime) {
+        // set game state to super slow
+        Time.timeScale = 0.00000001f;
+        StartCoroutine(gameFreezeHelper(freezeTime));
+    }
+
+    private IEnumerator gameFreezeHelper(float freezeTime) {
+        yield return new WaitForSeconds(Time.timeScale * freezeTime);
+        Time.timeScale = 1f;
+    }
 
 }

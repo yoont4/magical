@@ -75,21 +75,22 @@ public class CreatureBehavior : MonoBehaviour {
 
 	/**
 	 * Applies damage to the creature and kills it if it's health runs out
+     * Also applies hit-freeze
 	 */
 	public bool takeDamage(int damage) {
-		// apply damage
-		manager.health -= damage;
+        // apply damage
+        manager.health -= damage;
+        // apply hit-freeze
+        Utilities.Instance.gameFreeze(.05f);
 
-		// spawn damage text
-		Canvas damageCopy = (Canvas)Instantiate(damageCanvas, transform.position, transform.rotation);
-		Text[] damageText = damageCopy.GetComponentsInChildren<Text> ();
-		damageText[0].text = damage.ToString();
-		damageText[1].text = damage.ToString();
-
+        // spawn damage text
+        Canvas damageCopy = (Canvas)Instantiate(damageCanvas, transform.position, transform.rotation);
+        Text[] damageText = damageCopy.GetComponentsInChildren<Text>();
+        damageText[0].text = damage.ToString();
+        damageText[1].text = damage.ToString();
 
 		// if the enemy dies, spawn the exp text
 		if (manager.health <= 0) {
-
             // generate exp death text
 			Canvas expCopy = (Canvas)Instantiate(expCanvas, transform.position, transform.rotation);
 			BoxCollider2D expCollider = expCopy.GetComponent<BoxCollider2D> ();
@@ -101,7 +102,7 @@ public class CreatureBehavior : MonoBehaviour {
 			// enemy killed after 1/2 second
 			Destroy (container.gameObject,0.3f);
 			return true;
-		} 
+        } 
 		return false;
 	}
 
