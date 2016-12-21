@@ -47,6 +47,10 @@ public class PlayerController : CreatureBehavior {
 		this.attackSounds = this.GetComponentsInChildren<AudioSource> ();
 		this.attackNumber = -1;
 	}
+	void Awake() {
+		// 
+
+	}
 
 	// Update is called once per frame
     /**
@@ -56,8 +60,7 @@ public class PlayerController : CreatureBehavior {
      * 
      **/
 	void Update () {
-        if (!isAcceptingInput)
-        { 
+        if (!isAcceptingInput) { 
             return; 
         }
 
@@ -110,7 +113,7 @@ public class PlayerController : CreatureBehavior {
 				    jump (doubleJumpHeight);
 				    onFirstJump = false;
 			    }
-			} else if (Input.GetMouseButtonDown(1) && Input.GetKey(KeyCode.W)) {  //ground_attack_up check
+			} else if ((Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.L)) && Input.GetKey(KeyCode.W)) {  //ground_attack_up check
                 groundAttackUp();
             } else if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.L)) {	// ground_attack check
 				groundAttack();

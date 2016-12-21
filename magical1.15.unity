@@ -6361,11 +6361,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22406204, guid: 031f16371d6261e4cb87a31b0f384ad6, type: 2}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22406204, guid: 031f16371d6261e4cb87a31b0f384ad6, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11421562, guid: 031f16371d6261e4cb87a31b0f384ad6, type: 2}
       propertyPath: m_FontData.m_FontSize
